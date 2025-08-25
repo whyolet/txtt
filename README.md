@@ -197,14 +197,15 @@ invalid key
 "invalid key"
 ```
 
-Key ends before:
-* `"` character if this character is not followed by another `"` and if the key starts with `"`,
-* any of `:[{` characters if the key doesn't start with `"` character.
-
-If the end of file or the end of indented map is reached and the key is still not ending:
-* if the key is empty,
-* then the map is closed,
-* else this is an error.
+* Key ends before:
+  * `"` character if this character is not followed by another `"` and if the key starts with `"`,
+  * any of `:[{` characters if the key doesn't start with `"` character.
+* If the end of file or the end of indented map is reached and the key is still not ending:
+  * if the key is empty,
+  * then the map is closed,
+  * else this is an invalid key.
+* Key is returned as a literal string value,
+* except that in a quoted key the `""` (two quotes) return `"` (one quote).
 
 ### Comment
 
