@@ -13,7 +13,7 @@
     of indented text
   [
     - list in list
-  # indentation closes brackets
+  # closed by indentation
 
 # map
 {
@@ -30,29 +30,200 @@
   key5{
   key6{
     map: in map
-```
-
-## Rules
-
-...that are not obvious from the [Example](#example).
-
-1. One indentation level is exactly two spaces, never tabs.
-2. `- text` and `key: text` has exactly one space not included to the `text` value.
-3. `key` ends before one of `[{:` characters.
-4. `text line` ends before newline character or end of file.
-5. Multiple lines of indented text end before not empty line with decreased indentation or before end of file.
-6. To bypass the rules 2, 3, 4, wrap the key or the text with `"`. To include literal `"` - double it:
-
-```
-" key or text with any characters
-including [-{:,
-all kinds of whitespace, unicode,
-and even self-escaped "" inside"
+  "quoted: key": value
 ```
 
 ## Why
 
-* Because JSON is too verbose for humans,
+Because:
+* JSON is too verbose for humans,
 * YAML is a [total disaster](https://noyaml.com/),
-* and my previous attempt to fix it with [JONF](https://jonf.app/)
-  proved to be not simple enough.
+* [JONF](https://github.com/whyolet/jonf) and [alternatives](https://github.com/whyolet/jonf#motivation) listed there are not simple enough.
+
+## Rules
+
+### File
+
+* `txtt` format supports Unicode.
+* Default encoding is UTF-8.
+* `txtt` file can be parsed line by line with a simple state machine.
+* Initial state is a list:
+  * to have zero, single, or multiple root values in one file naturally,
+  * without additional concepts like "document" and separators like `---` in YAML.
+
+### List
+
+```
+- text line
+-
+  multiple lines
+  of indented text
+[
+  # list
+{
+  # map
+
+# comment
+```
+
+List is a sequence of zero or more of:
+* `- ` (dash, one space) followed by a text line.
+* `-` (dash, no space) followed by a newline and indented multiline text.
+* `[` followed by a newline and indented list.
+* `{` followed by a newline and indented map.
+* `#` followed by a comment.
+* Empty line which is not part of anything above. It is ignored.
+
+### Text line
+
+```
+- text line
+{
+  key: text line
+```
+
+* Text line ends before newline or end of file.
+* Text line is returned as a literal string value.
+* Escape sequences are not supported because:
+  * any character except the newline can be represented here as is,
+  * newline is supported by indented multiline text.
+
+### Newline
+
+* Both parser and formatter treat newline as `\n` only,
+* because accepting `\r\n` and single `\r` to implement the [robustness principle](https://en.wikipedia.org/wiki/Robustness_principle) would actually lead to the [lack of robustness](https://en.wikipedia.org/wiki/Robustness_principle#Criticism),
+* and normalization of `\r\n` and `\r` to `\n` would require a special way to preserve `\r` in the output like a `"quoted text with escape sequences like \r\n"`,
+* which would increase complexity without much value added.
+
+### Indented value
+
+* Indented value ends before:
+  * non-empty line with decreased indentation,
+  * end of file.
+* Indentation of indented value is deleted from each of its lines.
+* One indentation level is exactly two spaces to keep it standardized, compact, and readable.
+
+```
+quotes[
+  {
+    text:
+      You can have any color you want,
+
+      as long as it's black.
+    author: Henry Ford
+  {
+    text: Any color you like.
+    author: https://github.com/psf/black
+```
+
+### Multiline text
+
+```
+-
+  multiple lines
+  of indented text
+{
+  key:
+    multiple lines
+
+    of indented text
+
+  # empty text
+  key2:
+
+# empty text
+-
+```
+
+* Multiline text is returned as a literal string value.
+* It includes empty lines if any.
+* It includes the trailing newline as recommended for whole files.
+* Escape sequences are not supported because any unicode character including any kind of newline can be represented here as is.
+
+### Map
+
+```
+key1: text line
+key2:
+  multiple lines
+  of indented text
+key3[
+  # list
+key4{
+  # map
+
+# comment
+```
+
+Map is a sequence of zero or more of:
+* Key followed by `: ` (colon, one space) and a text line.
+* Key followed by `:` (colon, no space), a newline, and indented multiline text.
+* Key followed by `[`, a newline, and indented list.
+* Key followed by `{`, a newline, and indented map.
+* `#` followed by a comment.
+* Empty line which is not part of anything above. It is ignored.
+
+### Key
+
+```
+unquoted key: value
+```
+
+```
+"quoted: key": value
+```
+
+```
+unquoted"
+multiline key: value
+```
+
+```
+"key: key[ key{ key"" key...
+
+key": value
+```
+
+```
+# empty key
+: value
+```
+
+```
+invalid key
+```
+
+```
+"invalid key"
+```
+
+Key ends before:
+* `"` character if this character is not followed by another `"` and if the key starts with `"`,
+* any of `:[{` characters if the key doesn't start with `"` character.
+
+If the end of file or the end of indented map is reached and the key is still not ending:
+* if the key is empty,
+* then the map is closed,
+* else this is an error.
+
+### Comment
+
+* Comment ends:
+  * on newline, including it,
+  * before end of file.
+* Comment is ignored.
+* Comment styles other than `#` are not supported to keep it standardized and minimalist.
+* Inline comments are not supported to keep it simple and unambiguous:
+  ```
+  # You can always comment before
+  - https://example.com/#section8
+  # or after.
+  ```
+
+## Roadmap
+
+* Review.
+* Strict grammar file:
+  * for syntax highlighters and linters,
+  * to generate parsers and formatters for multiple languages.
+* Use it.
