@@ -82,7 +82,7 @@ List is a sequence of zero or more of:
   key: text line
 ```
 
-* Text line ends before newline or end of file.
+* Text line ends before a newline or the end of file.
 * Text line is returned as a literal string value.
 * Escape sequences are not supported because:
   * any character except the newline can be represented here as is,
@@ -179,9 +179,9 @@ multiline key: value
 ```
 
 ```
-"key: key[ key{ key"" key...
+"quoted key: key[ key{
 
-key": value
+key"" key": value
 ```
 
 ```
@@ -189,29 +189,21 @@ key": value
 : value
 ```
 
-```
-invalid key
-```
-
-```
-"invalid key"
-```
-
-* Key ends before:
-  * `"` character if this character is not followed by another `"` and if the key starts with `"`,
-  * any of `:[{` characters if the key doesn't start with `"` character.
-* If the end of file or the end of indented map is reached and the key is still not ending:
-  * if the key is empty,
-  * then the map is closed,
-  * else this is an invalid key.
-* Key is returned as a literal string value,
-* except that in a quoted key the `""` (two quotes) return `"` (one quote).
+* Key is either quoted or unquoted.
+* Quoted key:
+  * starts with `"` character,
+  * followed by zero or more of:
+    * `""`
+    * any character other than `"`
+  * ends with `"` character.
+* Quoted key is returned as a literal string value after deleting the first and the last `"` and replacing each `""` with a single `"`.
+* Unquoted key ends before any of `:[{` characters.
+* Unquoted key is returned as a literal string value.
+* If the end of file or the end of indented map is reached and the key is still not ending, then it is an invalid key.
 
 ### Comment
 
-* Comment ends:
-  * on newline, including it,
-  * before end of file.
+* Comment ends with a newline or before the end of file.
 * Comment is ignored.
 * Comment styles other than `#` are not supported to keep it standardized and minimalist.
 * Inline comments are not supported to keep it simple and unambiguous:
