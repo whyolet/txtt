@@ -1,14 +1,14 @@
 # txtt
 
-`txtt` is a simple text tree format.
+`txtt` (text tree) is a lightweight, indentation-based format for lists and maps of text strings.
 
 ## Example
 
 ```
 - hello world
 -
-  multiple
-  lines of text
+  multiple lines
+  of text
 [
   - nested list
 {
@@ -28,7 +28,7 @@ The same as JSON:
 ```
 [
   "hello world",
-  "multiple\nlines of text",
+  "multiple lines\nof text",
   [
     "nested list"
   ],
@@ -58,7 +58,7 @@ The same as JSON:
 * `txtt` format supports Unicode as is, without escape sequences like `\uFFFF`, default encoding is UTF-8.
 * `txtt` file is parsed line by line with a simple strict state machine.
 * Initial state is a list:
-  * to have zero, single, or multiple root values in one file naturally,
+  * to support zero, one, or multiple root values in one file naturally,
   * without additional concepts like "document" and separators like `---` in YAML.
 
 ### List
@@ -92,7 +92,7 @@ The same as JSON:
 
   ```
   {
-    key: [
+    key[
   ```
 
 ### Text line
@@ -129,9 +129,10 @@ The same as JSON:
 quotes[
   {
     text:
-      You can have any color you want,
+      You can have
+      any color you want,
 
-      as long as it's black.
+        as long as it's black.
     author: Henry Ford
   {
     text: Any color you like.
@@ -253,4 +254,6 @@ key"" key": value
 * Strict grammar file:
   * for syntax highlighters and linters,
   * to generate parsers and formatters for multiple languages.
+* Generate and test a VS Code/Cursor extension.
+* Generate and test reference parser and formatter for JS.
 * Use it.
