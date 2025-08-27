@@ -5,48 +5,58 @@
 ## Example
 
 ```
-# list
+- hello world
+-
+  multiple
+  lines of text
 [
-  - text line
-  -
-    multiple lines
-    of indented text
-  [
-    - list in list
-  # closed by indentation
-
-# map
+  - nested list
 {
-  key1: text line
-  key2:
-    multiple lines
-    of indented text
-  key3[
-    # empty list in map
-  key4[
-    - list in map
-    {
-      map: in list
-  key5{
-  key6{
-    map: in map
-  "quoted: key": value
+  key: text line
+  multiple:
+    lines
+    of text
+  list[
+    - item
+  map{
+    key: value
+# comment
+```
+
+The same as JSON:
+
+```
+[
+  "hello world",
+  "multiple\nlines of text",
+  [
+    "nested list"
+  ],
+  {
+    "key": "text line",
+    "multiple": "lines\nof text",
+    "list": [
+      "item"
+    ],
+    "map": {
+      "key": "value"
+    }
+  }
+]
 ```
 
 ## Why
 
-Because:
-* JSON is too verbose for humans,
-* YAML is a [total disaster](https://noyaml.com/),
+* JSON is too verbose, yet lacks comments,
+* YAML leads to [implicit typing](https://hitchdev.com/strictyaml/why/implicit-typing-removed/) surprises,
 * [JONF](https://github.com/whyolet/jonf) and [alternatives](https://github.com/whyolet/jonf#motivation) listed there are not simple enough.
 
 ## Rules
 
 ### File
 
-* `txtt` format supports Unicode.
-* Default encoding is UTF-8.
-* `txtt` file can be parsed line by line with a simple state machine.
+* `txtt` format supports Unicode as is, without escape sequences like `\uFFFF`, default encoding is UTF-8.
+* `txtt` file is parsed line by line with a simple strict state machine.
 * Initial state is a list:
   * to have zero, single, or multiple root values in one file naturally,
   * without additional concepts like "document" and separators like `---` in YAML.
@@ -57,7 +67,7 @@ Because:
 - text line
 -
   multiple lines
-  of indented text
+  of text
 [
   # list
 {
@@ -66,13 +76,24 @@ Because:
 # comment
 ```
 
-List is a sequence of zero or more of:
-* `- ` (dash, one space) followed by a text line.
-* `-` (dash, no space) followed by a newline and indented multiline text.
-* `[` followed by a newline and indented list.
-* `{` followed by a newline and indented map.
-* `#` followed by a comment.
-* Empty line which is not part of anything above. It is ignored.
+* List is a sequence of zero or more of:
+  * `- ` (dash, one space) followed by a text line.
+  * `-` (dash, no space) followed by a newline and indented multiline text.
+  * `[` followed by a newline and indented list.
+  * `{` followed by a newline and indented map.
+  * `#` followed by a comment.
+  * Empty line which is not part of anything above. It is ignored.
+* List ends like [Indented value](#indented-value), so the closing `]` is not supported.
+* Inline structure like `[- text1 - text2 [] {} /* */]` is not supported.
+* Empty lists:
+  ```
+  [
+  ```
+
+  ```
+  {
+    key: [
+  ```
 
 ### Text line
 
@@ -83,7 +104,8 @@ List is a sequence of zero or more of:
 ```
 
 * Text line ends before a newline or the end of file.
-* Text line is returned as a literal string value.
+* Text line is returned as a literal string value, never a number, boolean, or anything else.
+* Leading and trailing whitespace is not trimmed.
 * Escape sequences are not supported because:
   * any character except the newline can be represented here as is,
   * newline is supported by indented multiline text.
@@ -100,8 +122,8 @@ List is a sequence of zero or more of:
 * Indented value ends before:
   * non-empty line with decreased indentation,
   * end of file.
-* Indentation of indented value is deleted from each of its lines.
-* One indentation level is exactly two spaces to keep it standardized, compact, and readable.
+* A value indented with N spaces is returned after deletion of exactly N first spaces from each line, even if some lines start with more than N spaces.
+* One indentation level is exactly 2 spaces to keep it standardized, compact, and readable.
 
 ```
 quotes[
@@ -121,12 +143,12 @@ quotes[
 ```
 -
   multiple lines
-  of indented text
+  of text
 {
   key:
     multiple lines
 
-    of indented text
+    of text
 
   # empty text
   key2:
@@ -138,6 +160,7 @@ quotes[
 * Multiline text is returned as a literal string value.
 * It includes empty lines if any.
 * It includes the trailing newline as recommended for whole files.
+* After the [Indented value](#indented-value) rule deletes the indentation, remaining leading and trailing whitespace is not trimmed.
 * Escape sequences are not supported because any unicode character including any kind of newline can be represented here as is.
 
 ### Map
@@ -146,7 +169,7 @@ quotes[
 key1: text line
 key2:
   multiple lines
-  of indented text
+  of text
 key3[
   # list
 key4{
@@ -155,13 +178,24 @@ key4{
 # comment
 ```
 
-Map is a sequence of zero or more of:
-* Key followed by `: ` (colon, one space) and a text line.
-* Key followed by `:` (colon, no space), a newline, and indented multiline text.
-* Key followed by `[`, a newline, and indented list.
-* Key followed by `{`, a newline, and indented map.
-* `#` followed by a comment.
-* Empty line which is not part of anything above. It is ignored.
+* Map is a sequence of zero or more of:
+  * Key followed by `: ` (colon, one space) and a text line.
+  * Key followed by `:` (colon, no space), a newline, and indented multiline text.
+  * Key followed by `[`, a newline, and indented list.
+  * Key followed by `{`, a newline, and indented map.
+  * `#` followed by a comment.
+  * Empty line which is not part of anything above. It is ignored.
+*  Map ends like [Indented value](#indented-value), so the closing `}` is not supported.
+* Inline structure like `{key1: text1, key2[- text2 - text3], key3{} /* */}` is not supported.
+* Empty maps:
+  ```
+  {
+  ```
+
+  ```
+  {
+    key{
+  ```
 
 ### Key
 
