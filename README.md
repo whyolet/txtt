@@ -243,7 +243,7 @@ key"" key": value
 * Inline comments are not supported to keep it simple and unambiguous:
   ```
   # You can always comment before
-  - https://example.com/#section8
+  - https://example.com/#section4
   # or after.
   ```
 
