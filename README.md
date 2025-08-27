@@ -49,7 +49,29 @@ The same as JSON:
 
 * JSON is too verbose, yet lacks comments,
 * YAML leads to [implicit typing](https://hitchdev.com/strictyaml/why/implicit-typing-removed/) surprises,
-* [JONF](https://github.com/whyolet/jonf) and [alternatives](https://github.com/whyolet/jonf#motivation) listed there are not simple enough.
+* alternatives are not simple enough, from A to Z:
+  * [CSON](https://github.com/bevry/cson)
+  * [edn](https://github.com/edn-format/edn)
+  * [ELDF](https://eldf.org/)
+  * [ENO](https://eno-lang.org/)
+  * [HCL](https://github.com/hashicorp/hcl)
+  * [HJSON](https://hjson.github.io/)
+  * [HOCON](https://github.com/lightbend/config/blob/master/HOCON.md)
+  * [HRON](https://github.com/mrange/hron)
+  * [INI](https://en.wikipedia.org/wiki/INI_file)
+  * [ION](https://amzn.github.io/ion-docs/)
+  * [JONF](https://github.com/whyolet/jonf) 
+  * [JSON5](https://json5.org/)
+  * [Jsonnet](https://jsonnet.org/)
+  * [NestedText](https://nestedtext.org/)
+  * [ODDL](https://openddl.org/)
+  * [OGDL](https://ogdl.org/spec/)
+  * [Property list](https://en.wikipedia.org/wiki/Property_list)
+  * [SDLang](https://sdlang.org/)
+  * [S-expression](https://en.wikipedia.org/wiki/S-expression)
+  * [StrictYAML](https://hitchdev.com/strictyaml/)
+  * [TOML](https://toml.io/en/)
+  * [XML](https://www.w3.org/XML/)
 
 ## Rules
 
