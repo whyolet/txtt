@@ -1,4 +1,4 @@
-![txtt icon](txtt1280x640.png)
+![txtt icon](icons/txtt1280x640.png)
 
 # txtt
 
