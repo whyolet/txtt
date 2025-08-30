@@ -49,8 +49,8 @@ The same as JSON:
 
 ## Why
 
-* JSON is too verbose, yet lacks comments,
-* YAML leads to [implicit typing](https://hitchdev.com/strictyaml/why/implicit-typing-removed/) surprises,
+* [JSON](https://json.org/) is too verbose, yet lacks comments,
+* [YAML](https://yaml.org/) leads to [implicit typing](https://hitchdev.com/strictyaml/why/implicit-typing-removed/) surprises,
 * alternatives are not simple enough, from A to Z:
   * [CSON](https://github.com/bevry/cson)
   * [CSV](https://en.wikipedia.org/wiki/Comma-separated_values)
@@ -76,7 +76,7 @@ The same as JSON:
   * [S-expression](https://en.wikipedia.org/wiki/S-expression)
   * [StrictYAML](https://hitchdev.com/strictyaml/)
   * [TOML](https://toml.io/en/)
-  * [XML](https://www.w3.org/XML/)
+  * [XML](https://en.wikipedia.org/wiki/XML)
 
 ## Rules
 
