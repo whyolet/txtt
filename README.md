@@ -53,6 +53,7 @@ The same as JSON:
 * YAML leads to [implicit typing](https://hitchdev.com/strictyaml/why/implicit-typing-removed/) surprises,
 * alternatives are not simple enough, from A to Z:
   * [CSON](https://github.com/bevry/cson)
+  * [CSV](https://en.wikipedia.org/wiki/Comma-separated_values)
   * [edn](https://github.com/edn-format/edn)
   * [ELDF](https://eldf.org/)
   * [ENO](https://eno-lang.org/)
@@ -64,11 +65,13 @@ The same as JSON:
   * [ION](https://amzn.github.io/ion-docs/)
   * [JONF](https://github.com/whyolet/jonf) 
   * [JSON5](https://json5.org/)
+  * [JSONC](https://jsonc.org/)
   * [Jsonnet](https://jsonnet.org/)
   * [NestedText](https://nestedtext.org/)
-  * [ODDL](https://openddl.org/)
+  * [OpenDDL](https://openddl.org/)
   * [OGDL](https://ogdl.org/spec/)
   * [Property list](https://en.wikipedia.org/wiki/Property_list)
+  * [Query string](https://en.wikipedia.org/wiki/Query_string#Web_forms)
   * [SDLang](https://sdlang.org/)
   * [S-expression](https://en.wikipedia.org/wiki/S-expression)
   * [StrictYAML](https://hitchdev.com/strictyaml/)
@@ -210,7 +213,7 @@ key4{
   * Key followed by `{`, a newline, and indented map.
   * `#` followed by a comment.
   * Empty line which is not part of anything above. It is ignored.
-*  Map ends like [Indented value](#indented-value), so the closing `}` is not supported.
+* Map ends like [Indented value](#indented-value), so the closing `}` is not supported.
 * Inline structure like `{key1: text1, key2[- text2 - text3], key3{} /* */}` is not supported.
 * Duplicate keys are [invalid](https://hitchdev.com/strictyaml/why/duplicate-keys-disallowed/).
 * Empty maps:
