@@ -1,6 +1,8 @@
+![txtt icon](txtt1280x640.png)
+
 # txtt
 
-`txtt` (text tree) is a lightweight, indentation-based format for lists and maps of text strings.
+`txtt` (text tree) is a simple format for lists and maps of text strings.
 
 ## Example
 
@@ -210,6 +212,7 @@ key4{
   * Empty line which is not part of anything above. It is ignored.
 *  Map ends like [Indented value](#indented-value), so the closing `}` is not supported.
 * Inline structure like `{key1: text1, key2[- text2 - text3], key3{} /* */}` is not supported.
+* Duplicate keys are [invalid](https://hitchdev.com/strictyaml/why/duplicate-keys-disallowed/).
 * Empty maps:
   ```
   {
@@ -223,27 +226,26 @@ key4{
 ### Key
 
 ```
-unquoted key: value
+unquoted key:
+unquoted key[
+unquoted key{
+
+"quoted: key":
+"quoted[ key"[
+"quoted{ key"{
 ```
 
 ```
-"quoted: key": value
-```
+unquoted multiline key
+with empty lines
 
-```
-unquoted"
-multiline key: value
+and " inside:
 ```
 
 ```
 "quoted key: key[ key{
 
-key"" key": value
-```
-
-```
-# empty key
-: value
+key"" key":
 ```
 
 * Key is either quoted or unquoted.
@@ -253,10 +255,36 @@ key"" key": value
     * `""`
     * any character other than `"`
   * ends with `"` character.
-* Quoted key is returned as a literal string value after deleting the first and the last `"` and replacing each `""` with a single `"`.
+* Quoted key is returned as a literal string value after removing the opening and closing `"` and replacing each `""` with a single `"`.
 * Unquoted key ends before any of `:[{` characters.
 * Unquoted key is returned as a literal string value.
 * If the end of file or the end of indented map is reached and the key is still not ending, then it is an invalid key.
+
+### Empty key
+
+* Empty key is always unquoted to keep it standardized and compact:
+  ```
+  :
+  [
+  {
+  ```
+* Empty key enables unusual structures:
+  ```
+  {
+    {
+      [
+  ```
+  Equivalent JSON:
+  ```
+  [
+    {
+      "": {
+        "": [
+        ]
+      }
+    }
+  ]
+  ```
 
 ### Comment
 

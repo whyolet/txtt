@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no" ?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN"
+  "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd"
+>
+<!-- Docs: https://developer.mozilla.org/en-US/docs/Web/SVG/Element -->
+<svg
+  xmlns="http://www.w3.org/2000/svg"
+  version="1.1"
+  viewBox="0 0 16 16"
+>
+  <rect
+    x="0"
+    y="0"
+    width="16"
+    height="16"
+    fill="#FFF"
+    stroke="none"
+  />
+  <path
+    fill="none"
+    stroke="#CCF"
+    stroke-width="1"
+    d="
+M0,0.5 h16
+m-16,2 h16
+m-16,2 h16
+m-16,2 h16
+m-16,2 h16
+m-16,2 h16
+m-16,2 h16
+m-16,2 h16
+    "
+  />
+  <path
+    fill="none"
+    stroke="#CCF"
+    stroke-width="1"
+    d="
+M0.5,0 v16
+m2,-16 v16
+m2,-16 v16
+m2,-16 v16
+m2,-16 v16
+m2,-16 v16
+m2,-16 v16
+m2,-16 v16
+    "
+  />
+  <path
+    fill="none"
+    stroke="#639"
+    stroke-width="1"
+    d="
+M4,1.5 h-2.5 v6 h2.5
+
+M5,12.5 h3
+
+M12,1.5
+a1.5,1,0,0,0,-1.5,1 v1
+a1.5,1,0,0,1,-1.5,1
+a1.5,1,0,0,1,1.5,1 v1
+a1.5,1,0,0,0,1.5,1
+
+M14.5,10 v1 m0,3 v1
+    "
+  />
+</svg>
