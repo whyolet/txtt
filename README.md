@@ -301,6 +301,58 @@ key"" key":
   # or after.
   ```
 
+### Compact mode
+
+* Indentation is great for readability and auto-closing of list, map, and multiline text.
+* However, sometimes a big file with deeply nested indentation may break a size limit, leading to workarounds such as converting indented YAML to a compact one-line JSON [here](https://github.com/VictoriaMetrics/helm-charts/pull/1889/files#diff-394304da26181c13863c5f7658226a622e2c9326814639607313b06a36e78b32R17).
+* For such edge cases `txtt` supports compact mode where all the indentation required by other rules is replaced with explicit closing of list, map, and multiline text.
+* The main [Example](#example) in  compact mode:
+  ```
+  - hello world
+  "
+  multiple lines
+  of text
+  "
+  [
+  - nested list
+  ]
+  {
+  key: text line
+  multiple"
+  lines
+  of text
+  "
+  list[
+  - item
+  map{
+  key: value
+  }
+  ]
+  }
+  ```
+* This is way less readable, but for a big and deeply nested case it is way more compact.
+* Its size is even more compact (137 bytes vs 143 bytes) than the most compact version of the equivalent JSON:
+  ```
+  ["hello world","multiple lines\nof text",["nested list"],{"key":"text line","multiple":"lines\nof text","list":["item"],"map":{"key":"value"}}]
+  ```
+* Multiline text in compact mode uses the quoted key rules, escaping each `"` as `""`:
+  ```
+  "
+  multiple lines
+  with "" inside
+  "
+  {
+  key"
+  multiple lines
+  with "" inside
+  "
+  }
+  ```
+* List ends with a newline and `]` character.
+* Map ends with a newline and `}` character.
+* `txtt` parser detects compact mode automatically by missing indentation, closing characters, and quoted multiline text. Mixing indented and compact mode in the same file is not supported.
+* `txtt` formatter produces indented output by default, with explicit flag required to produce compact output.
+
 ## Roadmap
 
 * Review.
