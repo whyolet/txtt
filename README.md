@@ -53,7 +53,6 @@ The same as JSON:
 * [YAML](https://yaml.org/) leads to [implicit typing](https://hitchdev.com/strictyaml/why/implicit-typing-removed/) surprises,
 * alternatives are not simple enough, from A to Z:
   * [CSON](https://github.com/bevry/cson)
-  * [CSV](https://en.wikipedia.org/wiki/Comma-separated_values)
   * [edn](https://github.com/edn-format/edn)
   * [ELDF](https://eldf.org/)
   * [ENO](https://eno-lang.org/)
@@ -77,6 +76,7 @@ The same as JSON:
   * [StrictYAML](https://hitchdev.com/strictyaml/)
   * [TOML](https://toml.io/en/)
   * [XML](https://en.wikipedia.org/wiki/XML)
+* [CSV](https://en.wikipedia.org/wiki/Comma-separated_values) is simple, but it doesn't support nested lists and maps, hence [TTT](https://github.com/whyolet/ttt)!
 
 ## Rules
 
