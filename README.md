@@ -2,6 +2,9 @@
 
 # txtt
 
+> [!WARNING]
+> `txtt` draft is **archived** in favor of [TTT](https://github.com/whyolet/ttt) - please check it.
+
 `txtt` (text tree) is a simple format for lists and maps of text strings.
 
 ## Example
@@ -353,12 +356,7 @@ key"" key":
 * `txtt` parser detects compact mode automatically by missing indentation, closing characters, and quoted multiline text. Mixing indented and compact mode in the same file is not supported.
 * `txtt` formatter produces indented output by default, with explicit flag required to produce compact output.
 
-## Roadmap
+## Archived
 
-* Review.
-* Strict grammar file:
-  * for syntax highlighters and linters,
-  * to generate parsers and formatters for multiple languages.
-* Generate and test a VS Code/Cursor extension.
-* Generate and test reference parser and formatter for JS.
-* Use it.
+> [!WARNING]
+> `txtt` draft is **archived** in favor of [TTT](https://github.com/whyolet/ttt) - please check it.
